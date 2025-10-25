@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import HighScore
 import json
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
 def game_view(request):
     return render(request, 'game.html')
@@ -21,3 +23,10 @@ def save_score(request):
 def leaderboard(request):
     scores = HighScore.objects.all()[:10]
     return render(request, 'leaderboard.html', {'scores': scores})
+
+def delete_score(request, pk):
+    score = get_object_or_404(HighScore, pk=pk)
+    if request.user.is_staff:  # только админ
+        score.delete()
+        messages.success(request, 'Рекорд удалён!')
+    return redirect('leaderboard')
