@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Лидерборд</title>
+    <style>
+        body { background: #000; color: #0ff; font-family: monospace; text-align: center; padding: 50px; }
+        table { margin: 0 auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #0ff; }
+        th { background: #001; }
+        a { color: #0ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>🏆 ТОП-10 КОСМИЧЕСКИХ ПУТЕШЕСТВЕННИКОВ</h1>
+    <table>
+        <tr><th>Место</th><th>Имя</th><th>Очки</th><th>Когда</th></tr>
+        {% for s in scores %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ s.player_name }}</td>
+            <td>{{ s.score }}</td>
+            <td>{{ s.played_at|date:"d.m.Y H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Пока нет рекордов!</td></tr>
+        {% endfor %}
+    </table>
+    <p><a href="/">🔙 На главную</a></p>
+</body>
+</html>
