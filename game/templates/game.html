@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Космическое путешествие</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .emoji { font-size: 32px; pointer-events: none; position: absolute; user-select: none; }
+        .rocket { font-size: 48px; transition: left 0.1s; }
+        .star { font-size: 28px; }
+        .meteor { font-size: 36px; }
+        .blackhole { font-size: 80px; filter: drop-shadow(0 0 15px #a0f); }
+    </style>
+</head>
+<body>
+
+    <!-- ЭКРАН СТАРТА -->
+    <div id="startScreen" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.9); padding: 40px; border-radius: 20px; border: 3px solid #0ff; box-shadow: 0 0 40px #0ff; width: 340px; color: white; font-family: monospace;">
+        <h1>🚀 КОСМИЧЕСКОЕ ПУТЕШЕСТВИЕ</h1>
+        <p>Управление: ← → или A D<br>Пауза: P</p>
+        <button onclick="startGame()" style="margin: 20px 0; padding: 15px 40px; font-size: 24px; background: #001; color: #0ff; border: 2px solid #0ff; border-radius: 10px; cursor: pointer;">СТАРТ</button>
+        <p><a href="/leaderboard/" style="color: #0ff;">🏆 Лидерборд</a></p>
+    </div>
+
+    <!-- ИГРОВОЙ КОНТЕЙНЕР -->
+    <div id="gameContainer" class="hidden" style="position: relative; width: 400px; margin: 20px auto; text-align: center;">
+        <div class="hud" style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 18px; color: white; text-shadow: 0 0 10px #0ff;">
+            <div>Очки: <span id="score">0</span></div>
+            <div>Время: <span id="timer">00:00</span></div>
+            <div>Жизни:<span id="lives">❤️❤️❤️</span></div>
+            <div>Ч.Д: <span id="blackhole-avoided">0</span></div>
+        </div>
+        <div id="gameArea" style="position: relative; width: 400px; height: 600px; border: 2px solid #0ff; border-radius: 10px; overflow: hidden; background: rgba(0, 0, 50, 0.3); box-shadow: 0 0 20px #0ff;">
+            <!-- Здесь будут эмодзи -->
+        </div>
+
+        <div id="gameOver" class="hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #0ff; text-align: center; box-shadow: 0 0 30px #0ff; color: white; width: 300px;">
+            <h2>🚀 Игра окончена!</h2>
+            <p>Твой счёт: <span id="finalScore">0</span></p>
+            <input type="text" id="playerName" placeholder="Твоё имя" maxlength="20" style="padding: 10px; margin: 10px 0; width: 80%; background: #001; color: #0ff; border: 1px solid #0ff; border-radius: 5px;">
+            <button onclick="saveScore()" style="padding: 10px 20px; margin: 5px; background: #001; color: #0ff; border: 1px solid #0ff; border-radius: 5px; cursor: pointer;">Сохранить рекорд</button>
+            <button onclick="restart()" style="padding: 10px 20px; margin: 5px; background: #001; color: #0ff; border: 1px solid #0ff; border-radius: 5px; cursor: pointer;">Играть снова</button>
+            <button onclick="location.href='/leaderboard/'" style="padding: 10px 20px; margin: 5px; background: #001; color: #0ff; border: 1px solid #0ff; border-radius: 5px; cursor: pointer;">🏆 Лидерборд</button>
+        </div>
+
+        <div id="paused" class="hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #0ff; text-align: center; box-shadow: 0 0 30px #0ff; color: white;">
+            <h2>⏸ Пауза</h2>
+            <p>Нажми P, чтобы продолжить</p>
+        </div>
+    </div>
+
+    <script src="{% static 'js/game.js' %}"></script>
+</body>
+</html>
